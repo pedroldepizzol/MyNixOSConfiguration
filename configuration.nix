@@ -15,14 +15,21 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  # If the ID doesn't work, uncomment the code below.
+  #networking.networkmanager.enable = true;
+  networking = {
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -67,7 +74,7 @@
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = true;
+	enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -84,12 +91,10 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chester = {
-    isNormalUser = true;
-    description = "Chester Berkeley";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+   	isNormalUser = true;
+	description = "Chester Berkeley";
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    shell = pkgs.fish;
   };
 
   # Allow unfree packages
@@ -98,17 +103,79 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-	ee
+  # Terminal apps
+	micro
+	git
   	wget
-	discord
-	librewolf
+    cpufetch
+    gpufetch
+    ramfetch
+    fastfetch
+    countryfetch
+  # KDE apps
+  	kdePackages.bluedevil
+    kdePackages.kcalc
+    kdePackages.partitionmanager
+    kdePackages.yakuake
+    kdePackages.filelight
+    kdePackages.kdenlive
+    kdePackages.kcolorchooser
+    kdePackages.kolourpaint
+    kdePackages.ktorrent
+    kdePackages.dragon
+    kdePackages.kmail
+    kdePackages.kontact
+    kdePackages.korganizer
+    kdePackages.kwallet
+  # Themes
+	qogir-kde
+	qogir-icon-theme
+	inter
+	kdePackages.sddm-kcm
+  # Browsing
+    librewolf
+    yt-dlp
+    discord
+    discover-overlay
+    spotify
+  # Video Tools
+    obs-studio
+    inkscape
+    gimp
+  # Gaming
+    lutris
+    bottles
+    protonplus
+    prismlauncher
+  # Virt-Manager
+  	dnsmasq
+  	
   ];
 
+  # SDDM Qogir
+  services.displayManager.sddm = {
+	theme = "Qogir";
+  };
+
+  # Bash is for shell scripting, Fish is for everyday use
+  environment.shellAliases = {
+  	nixrebuild = "sudo nixos-rebuild switch";
+  	nixupgrade = "sudo nixos-rebuild switch --upgrade";
+  	nixclear = "sudo nix-collect-garbage -d";
+  	nixconfiguration = "sudo micro /etc/nixos/configuration.nix";
+  };
+  programs.fish.enable = true;
+
+  # Nano as sucks, use Micro!
   programs.nano.enable = false;
 
+  # Virtualisation
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
+  #I love Gabe Newell <3
   programs.steam = {
-    enable = true;
+	enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
