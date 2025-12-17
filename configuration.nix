@@ -114,6 +114,8 @@
     countryfetch
   # KDE apps
   	kdePackages.bluedevil
+  	kdePackages.sddm-kcm
+  	kdePackages.kdeconnect-kde
     kdePackages.kcalc
     kdePackages.partitionmanager
     kdePackages.yakuake
@@ -131,7 +133,6 @@
 	qogir-kde
 	qogir-icon-theme
 	inter
-	kdePackages.sddm-kcm
   # Browsing
     librewolf
     yt-dlp
