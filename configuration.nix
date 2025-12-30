@@ -131,11 +131,6 @@
     kdePackages.korganizer
     kdePackages.kwallet
     kdePackages.isoimagewriter
-  # Themes
-	qogir-kde
-	qogir-icon-theme
-	inter
-	inter-nerdfont
   # Browsing
     librewolf
     yt-dlp
@@ -147,8 +142,7 @@
     inkscape
     gimp
   # Gaming
-    lutris
-    bottles
+    heroic
     protonplus
     prismlauncher
   # Dependencies
@@ -157,17 +151,13 @@
   	
   ];
 
-  # SDDM Qogir
-  services.displayManager.sddm = {
-	theme = "Qogir";
-  };
-
   # Bash is for shell scripting, Fish is for everyday use
   environment.shellAliases = {
   	nixrebuild = "sudo nixos-rebuild switch";
   	nixupgrade = "sudo nixos-rebuild switch --upgrade";
   	nixclear = "sudo nix-collect-garbage -d";
   	nixconfiguration = "sudo micro /etc/nixos/configuration.nix";
+  	nixshow = "cat /etc/nixos/configuration.nix";
   };
   programs.fish.enable = true;
 
