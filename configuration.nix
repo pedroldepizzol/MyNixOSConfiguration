@@ -126,11 +126,10 @@
     kdePackages.kolourpaint
     kdePackages.ktorrent
     kdePackages.dragon
-    kdePackages.kmail
-    kdePackages.kontact
-    kdePackages.korganizer
     kdePackages.kwallet
     kdePackages.isoimagewriter
+  # Fonts
+  	inter
   # Browsing
     librewolf
     yt-dlp
