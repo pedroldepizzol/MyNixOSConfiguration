@@ -24,12 +24,19 @@
   # networking.networkmanager.enable = true;
   # Enable networking with iwd
   networking = {
+  
     networkmanager = {
       enable = true;
       wifi.backend = "iwd";
     };
+    
   };
 
+  # Firewall
+  networking.firewall = rec {
+    allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
   
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -100,13 +107,16 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Allow Flatpak
+  services.flatpak.enable = true;
+
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
   # Terminal apps
 	micro
 	git
   	wget
+  	yt-dlp
     cpufetch
     gpufetch
     ramfetch
@@ -132,12 +142,12 @@
   	inter
   # Browsing
     librewolf
-    yt-dlp
-    discord
+    vesktop
     discover-overlay
     spotify
+    zapzap
   # Video Tools
-    obs-studio
+  	audacity
     inkscape
     gimp
   # Gaming
@@ -149,6 +159,21 @@
   	bluez
   	
   ];
+
+  # OBS Studio, because yes
+  programs.obs-studio = {
+      enable = true;
+        
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+        obs-vaapi #optional AMD hardware acceleration
+        obs-gstreamer
+        obs-vkcapture
+        droidcam-obs
+      ];
+    };
 
   # Bash is for shell scripting, Fish is for everyday use
   environment.shellAliases = {
